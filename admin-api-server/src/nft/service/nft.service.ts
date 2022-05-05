@@ -5,6 +5,16 @@ import {
   Injectable,
   Inject,
 } from '@nestjs/common';
+import { Lock } from 'async-await-mutex-lock';
+import { cryptoUtils } from 'sotez';
+import axios from 'axios';
+import { watch, FSWatcher } from 'fs';
+
+import {
+  SIGNATURE_PREFIX_CREATE_NFT,
+  SIGNATURE_PREFIX_DELIST_NFT,
+  SIGNATURE_PREFIX_RELIST_NFT,
+} from 'kanvas-api-lib';
 import {
   PG_CONNECTION,
   FILE_PREFIX,
@@ -13,26 +23,16 @@ import {
   NFT_DELIST_STATE,
   STORE_API,
   ADMIN_PRIVATE_KEY,
-} from 'src/constants';
-import {
-  SIGNATURE_PREFIX_CREATE_NFT,
-  SIGNATURE_PREFIX_DELIST_NFT,
-  SIGNATURE_PREFIX_RELIST_NFT,
-} from 'kanvas-api-lib';
-import { DbPool } from 'src/db.module';
+} from '../../constants.js';
+import { DbPool } from '../../db.module.js';
 import { STMResultStatus, StateTransitionMachine, Actor } from 'kanvas-stm-lib';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { NftEntity, NftUpdate } from '../entities/nft.entity';
-import { NftFilterParams } from '../params';
-import { RoleService } from 'src/role/service/role.service';
-import { S3Service } from './s3.service';
-import { CategoryService } from 'src/category/service/category.service';
-import { CategoryEntity } from 'src/category/entity/category.entity';
-import { Lock } from 'async-await-mutex-lock';
-import { cryptoUtils } from 'sotez';
-import axios from 'axios';
-import { watch, FSWatcher } from 'fs';
-// const fs = require('fs');
+import { UserEntity } from '../../user/entities/user.entity.js';
+import { NftEntity, NftUpdate } from '../entities/nft.entity.js';
+import { NftFilterParams, NftFilters } from '../params.js';
+import { RoleService } from '../../role/service/role.service.js';
+import { S3Service } from './s3.service.js';
+import { CategoryService } from '../../category/service/category.service.js';
+import { CategoryEntity } from '../../category/entity/category.entity.js';
 
 @Injectable()
 export class NftService {
@@ -128,7 +128,7 @@ ORDER BY ${orderBy} ${params.orderDirection} ${orderBy !== 'id' ? ', id' : ''}
 OFFSET ${params.pageOffset}
 LIMIT  ${params.pageSize}
       `,
-      [params.filters.nftStates, params.filters.nftIds],
+      [params.filters?.nftStates, params.filters?.nftIds],
     );
 
     if (qryRes.rowCount === 0) {
@@ -156,6 +156,7 @@ LIMIT  ${params.pageSize}
 
   async #findByIds(nftIds: number[]): Promise<NftEntity[]> {
     const filterParams = new NftFilterParams();
+    filterParams.filters = new NftFilters();
 
     filterParams.filters.nftIds = nftIds;
     filterParams.pageSize = nftIds.length;

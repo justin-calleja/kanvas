@@ -11,22 +11,22 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard.js';
 import {
   FILE_MAX_BYTES,
   MAX_FILE_UPLOADS_PER_CALL,
   ALLOWED_FILE_MIMETYPES,
-} from 'src/constants';
-import { NftEntity, NftUpdate } from '../entities/nft.entity';
-import { NftService } from '../service/nft.service';
-import { CurrentUser } from 'src/decoraters/user.decorator';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { NftFilterParams, NftFilters } from '../params';
-import { ParseJSONArrayPipe } from 'src/pipes/ParseJSONArrayPipe';
+} from '../../constants.js';
+import { NftEntity, NftUpdate } from '../entities/nft.entity.js';
+import { NftService } from '../service/nft.service.js';
+import { CurrentUser } from '../../decoraters/user.decorator.js';
+import { UserEntity } from '../../user/entities/user.entity.js';
+import { NftFilterParams, NftFilters } from '../params.js';
+import { ParseJSONArrayPipe } from '../../pipes/ParseJSONArrayPipe.js';
 import {
   queryParamsToPaginationParams,
   validatePaginationParams,
-} from 'src/utils';
+} from '../../utils.js';
 
 function pngFileFilter(req: any, file: any, callback: any) {
   if (
@@ -134,7 +134,7 @@ export class NftController {
     filters?: NftFilters,
     sort?: string[],
     range?: number[],
-  ) {
+  ): NftFilterParams {
     return {
       ...new NftFilterParams(),
       ...queryParamsToPaginationParams(sort, range),

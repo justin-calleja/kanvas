@@ -1,11 +1,10 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
+import { AppModule } from './app.module.js';
 
-var bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
+// var bodyParser = require('body-parser');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
