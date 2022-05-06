@@ -14,7 +14,6 @@
     "incremental": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "noAllowImplicitAny": false,
     "types": [
       "node", "jest"
     ], "lib": [
