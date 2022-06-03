@@ -28,6 +28,8 @@ $1
     if [ "$#" -eq "1" ]; then
         echo "this is a manual step. press any key when ready to continue or ^C to quit"
         read -s -n 1
+    elif [ "${DRY_RUN:-false}" == "true" ]; then
+        echo "(dry run): ${@:2}"
     else
         ${@:2}
     fi
