@@ -368,10 +368,10 @@ WHERE id = $2
           ),
         ),
         pk_id: 'key1',
-        sc_address: TEZPAY_PAYPOINT_ADDRESS,
+        sc_address: 'KT1LTTm6EJW387FR4WRv31akjdNLaAUNgCyb',
         sc_id: new Buffer(tezpayIntent.clientSecret).toString('hex'),
         sc_input_data: new Buffer(`{
-  "entrypoint": "default",
+  "entrypoint": "pay",
   "value": {"string":"testing"}
 }`).toString('hex'),
       },
