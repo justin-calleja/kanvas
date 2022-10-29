@@ -1,4 +1,4 @@
-import type { CategoryEntity } from '../../category/entity/category.entity.js';
+import type { CategoryEntity } from '../../category/entity/category.entity';
 
 export interface OwnershipInfo {
   status: 'owned' | 'pending' | 'payment processing';

@@ -1,4 +1,4 @@
-import type { NftEntity } from '../../nft/entity/nft.entity.js';
+import type { NftEntity } from '../../nft/entity/nft.entity';
 
 export enum OrderStatus {
   CANCELED = 'canceled',
